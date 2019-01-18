@@ -4,15 +4,18 @@ import guru.springframework.webapp.demo.domain.*;
 import guru.springframework.webapp.demo.repositories.CategoryRepository;
 import guru.springframework.webapp.demo.repositories.RecipeRepository;
 import guru.springframework.webapp.demo.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -27,6 +30,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
         recipeRepository.saveAll(getRecipes());
     }
@@ -94,7 +98,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         }
 
         Category americanCategory = americanCategoryOptional.get();
+        log.debug("created AmericanCategory");
         Category mexicanCategory = mexicanCategoryOptional.get();
+        log.debug("created MexicanCategory");
 
         //Yummy Guac
         Recipe guacRecipe = new Recipe();
