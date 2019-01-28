@@ -3,7 +3,6 @@ package guru.springframework.webapp.demo.services;
 import guru.springframework.webapp.demo.commands.RecipeCommand;
 import guru.springframework.webapp.demo.domain.Recipe;
 
-import java.util.List;
 import java.util.Set;
 
 public interface RecipeService {
@@ -16,4 +15,6 @@ public interface RecipeService {
 
 
     RecipeCommand findCommandById(Long l);
+
+    void deleteById(Long idToDelete);
 }
