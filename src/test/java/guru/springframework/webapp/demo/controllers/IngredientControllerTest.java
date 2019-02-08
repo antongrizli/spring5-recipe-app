@@ -41,7 +41,7 @@ public class IngredientControllerTest {
         MockitoAnnotations.initMocks(this);
 
         controller = new IngredientController(ingredientService, recipeService, unitOfMeasureService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new ControllerExceptionHandler()).build();
     }
 
     @Test
@@ -145,5 +145,13 @@ public class IngredientControllerTest {
 
         verify(ingredientService, times(1)).deleteById(anyLong(), anyLong());
 
+    }
+
+    @Test
+    public void testBadRequest() throws Exception {
+
+        mockMvc.perform(get("/recipe/1/ingredient/dfg/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
     }
 }
